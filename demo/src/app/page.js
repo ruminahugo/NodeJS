@@ -3,7 +3,7 @@
 
 // Fetch customer data from API
 async function getCustomerData() {
-  const res = await fetch(`/api/customer`);
+  const res = await fetch(`https://demo-henna-nine.vercel.app/api/customer`);
   if (!res.ok) {
     throw new Error("Failed to fetch customer data");
   }
