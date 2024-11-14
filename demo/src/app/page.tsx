@@ -1,5 +1,5 @@
 //import Image from "next/image";
-//import CustomerPage from "@/app/page.js"
+import CustomerPage from "@/app/page.js"
 
 export default function Home() {
   return (    
@@ -101,7 +101,7 @@ export default function Home() {
           Go to nextjs.org →
         </a>
       </footer> */}
-      
+      <CustomerPage />
     </div> 
   );
 }
