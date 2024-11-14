@@ -1,4 +1,4 @@
-import Image from "next/image";
+//import Image from "next/image";
 import CustomerPage from "@/app/page.js"
 
 export default function Home() {
