@@ -1,9 +1,12 @@
 // app/customer/page.js
 //import React from "react";
+import { headers } from "next/headers";
 
 // Fetch customer data from API
 async function getCustomerData() {
-  const res = await fetch(`https://demo-henna-nine.vercel.app/api/customer`);
+  const host = headers().get("host"); // Tự động lấy host của ứng dụng
+  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+  const res = await fetch(`${protocol}://${host}/api/customer`);
   if (!res.ok) {
     throw new Error("Failed to fetch customer data");
   }
