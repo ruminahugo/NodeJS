@@ -1,5 +1,5 @@
 // app/customer/page.js
-import React from "react";
+//import React from "react";
 
 // Fetch customer data from API
 async function getCustomerData() {
