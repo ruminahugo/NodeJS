@@ -1,4 +1,4 @@
-/* // app/customer/page.js
+// app/customer/page.js
 //import React from "react";
 import { headers } from "next/headers";
 
@@ -71,4 +71,3 @@ export default async function CustomerPage() {
     </div>
   );
 }
- */
