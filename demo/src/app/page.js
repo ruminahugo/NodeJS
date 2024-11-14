@@ -3,7 +3,7 @@
 
 // Fetch customer data from API
 async function getCustomerData() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/customer`);
+  const res = await fetch(`/api/customer`);
   if (!res.ok) {
     throw new Error("Failed to fetch customer data");
   }
