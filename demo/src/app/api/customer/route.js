@@ -1,5 +1,5 @@
 // app/api/customer/route.js
-export async function GET(request) {
+export async function GET(/*request*/) {
   const customerData = {
     customerId: "12345",
     name: "John Doe",
