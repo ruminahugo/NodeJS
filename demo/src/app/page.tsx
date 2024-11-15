@@ -1,7 +1,7 @@
 import CustomerPage from "@/app/page1";
 
 export default function Home({ searchParams }: { searchParams: { user?: string } }) {
-  const username = searchParams?.user;
+  /* const username = searchParams?.user;
 
   if (!username) {
     return (
@@ -16,5 +16,5 @@ export default function Home({ searchParams }: { searchParams: { user?: string }
     <div className="grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <CustomerPage username={username} />
     </div>
-  );
+  ); */
 }
