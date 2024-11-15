@@ -1,4 +1,4 @@
-import CustomerPage from "@/app/page1";
+//import CustomerPage from "@/app/page1";
 
 export default function Home({ searchParams }: { searchParams: { user?: string } }) {
   /* const username = searchParams?.user;
