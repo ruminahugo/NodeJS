@@ -3,18 +3,18 @@
 import { headers } from "next/headers";
 
 // Fetch customer data from API
-async function getCustomerData() {
+async function getCustomerData(username) {
   const host = headers().get("host"); // Tự động lấy host của ứng dụng
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
-  const res = await fetch(`${protocol}://${host}/api/customer`);
+  const res = await fetch(`${protocol}://${host}/api/${username}`);
   if (!res.ok) {
     throw new Error("Failed to fetch customer data");
   }
   return res.json();
 }
 
-export default async function CustomerPage() {
-  const customerData = await getCustomerData();
+export default async function CustomerPage({username}) {
+  const customerData = await getCustomerData(username);
 
   return (
     <div>
