@@ -1,6 +1,6 @@
 //import CustomerPage from "@/app/page1";
 
-export default function Home(/*{ searchParams }: { searchParams: { user?: string } }*/) {
+export default function Home() {
   /* const username = searchParams?.user;
 
   if (!username) {
