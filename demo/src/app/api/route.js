@@ -13,8 +13,8 @@ async function getCustomerData(username) {
   return res;
 }
 
-export async function GET(request, {param={}}={}) {
-  const username = param?.user || null;
+export async function GET(request, context) {
+  const username = context.user || null;
   if (!username){
     return new Response(
       JSON.stringify({ error: "id không được để trống!" }),
