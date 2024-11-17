@@ -6,7 +6,7 @@ import { headers } from "next/headers";
 async function getCustomerData(username) {
   const host = headers().get("host"); // Tự động lấy host của ứng dụng
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
-  const res = await fetch(`${protocol}://${host}/api/${username}/route.js`);
+  const res = await fetch(`${protocol}://${host}/api/${username}`);
   if (!res.ok) {
     throw new Error("Failed to fetch customer data");
   }
