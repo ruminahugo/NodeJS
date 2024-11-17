@@ -27,9 +27,9 @@ export async function GET(request, {param={}}={}) {
       JSON.stringify({customerData}),
       { status : 200, headers: {"Content-Type": "application/json"}}
     ); */
-  }catch(error){
+  }catch(){
     return new Response(
-      JSON.stringify({error: "Không thể lấy data!"}),
+      JSON.stringify({error: error}),
       { status: 500, headers: {"Content-Type": "application/json"}}
     );
   }
