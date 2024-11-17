@@ -10,13 +10,31 @@ async function getCustomerData(username) {
   if (!res.ok) {
     throw new Error("Failed to fetch customer data");
   }
-  return res.json();
+  return res;
 }
 
-export default async function CustomerPage({username}) {
-  const customerData = await getCustomerData(username);
+export async function GET(request, {param={}}={}) {
+  const username = param?.user || null;
+  if (!username){
+    return new Response(
+      JSON.stringify({ error: "id không được để trống!" }),
+      { status: 400, headers: { "Content-Type": "application/json" } }
+    );
+  }
+  try{
+    const customerData = await getCustomerData(username);
+    /* return new Response(
+      JSON.stringify({customerData}),
+      { status : 200, headers: {"Content-Type": "application/json"}}
+    ); */
+  }catch(error){
+    return new Response(
+      JSON.stringify({error: "Không thể lấy data!"}),
+      { status: 500, headers: {"Content-Type": "application/json"}}
+    );
+  }
 
-  return (
+  /* return (
     <div>
       <h1>Customer Information</h1>
       <p><strong>Name:</strong> {customerData.name}</p>
@@ -69,5 +87,5 @@ export default async function CustomerPage({username}) {
         ))}
       </ul>
     </div>
-  );
+  ); */
 }
