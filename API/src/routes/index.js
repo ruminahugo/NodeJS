@@ -20,4 +20,15 @@ router.get('/', (req, res) => {
   res.json({ message: 'Welcome to the API!' });
 });
 
+router.get("/locations", (req, res) => {
+  const locations = [
+    { id: 1, name: "TP. Hồ Chí Minh" },
+    { id: 2, name: "Kiên Giang" },
+    { id: 3, name: "Tây Ninh" },
+    { id: 4, name: "Bình Thuận" },
+  ];
+  res.json(locations);
+});
+
+
 module.exports = router;
