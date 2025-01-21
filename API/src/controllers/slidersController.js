@@ -19,6 +19,35 @@ const setSlider = async (req, res) => {
     }
 };
 
+const editSlider = async (req, res) => {
+    try {
+        const { id, imageUrl, title, description } = req.body;
+
+        // Kiểm tra nếu thiếu `id`
+        if (!id) {
+            return res.status(400).json({ message: 'Slider ID is required' });
+        }
+
+        // Tìm và cập nhật slider
+        const updatedSlider = await Slider.findByIdAndUpdate(
+            id,
+            { imageUrl, title, description },
+            { new: true } // Trả về tài liệu sau khi cập nhật
+        );
+
+        // Kiểm tra nếu không tìm thấy slider
+        if (!updatedSlider) {
+            return res.status(404).json({ message: 'Slider not found' });
+        }
+
+        res.status(200).json(updatedSlider);
+    } catch (error) {
+        console.error('Error updating slider:', error);
+        res.status(500).json({ message: 'Error updating slider' });
+    }
+};
+
+
 const delSliders = async (req, res) => {
     try {
         const { id } = req.params;
@@ -29,4 +58,4 @@ const delSliders = async (req, res) => {
     }
 };
 
-module.exports = {getSlider, setSlider, delSliders};
+module.exports = {getSlider, setSlider, editSlider, delSliders};
