@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
+//import styles from '../styles/upload.module.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function UploadPage() {
   const [image, setImage] = useState(null);
@@ -57,23 +59,28 @@ export default function UploadPage() {
   };
 
   return (
-    <div>
+    <div class="container">
       <h1>Upload Image</h1>
+      <br />
       <form onSubmit={handleSubmit}>
-        <div>
+        <div class="form-group">
           <label>Image:</label>
           <input type="file" accept="image/*" onChange={handleImageChange} />
         </div>
+        <br />
         {preview && <img src={preview} alt="Preview" style={{ width: '200px', height: '200px' }} />}
-        <div>
+        <br />
+        <div class="form-group">
           <label>Title:</label>
-          <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <input type="text" class="form-control" value={title} onChange={(e) => setTitle(e.target.value)} />
         </div>
-        <div>
+        <br />
+        <div class="form-group">
           <label>Description:</label>
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+          <textarea class="form-control" value={description} onChange={(e) => setDescription(e.target.value)} />
         </div>
-        <button type="submit" disabled={uploading}>
+        <br />
+        <button type="submit" class="btn btn-primary" disabled={uploading}>
           {uploading ? 'Uploading...' : 'Upload'}
         </button>
       </form>
