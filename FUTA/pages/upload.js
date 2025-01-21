@@ -160,7 +160,7 @@ export default function UploadPage() {
     <p>No images uploaded yet.</p>
 ) : (
         images.map((img) => (
-          <div key={img.id} className="col-md-4">
+          <div key={img._id} className="col-md-4">
             <div className="card">
               <img
                 src={img.imageUrl}
@@ -173,13 +173,13 @@ export default function UploadPage() {
                 <p className="card-text">{img.description}</p>
                 <button
                   className="btn btn-warning"
-                  onClick={() => handleEdit(img.id, img.title, img.description, img.imageUrl)}
+                  onClick={() => handleEdit(img._id, img.title, img.description, img.imageUrl)}
                 >
                   Edit
                 </button>
                 <button
                   className="btn btn-danger"
-                  onClick={() => handleDelete(img.id)}
+                  onClick={() => handleDelete(img._id)}
                 >
                   Delete
                 </button>
