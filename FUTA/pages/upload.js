@@ -157,8 +157,8 @@ export default function UploadPage() {
       <h2>Uploaded Images</h2>
       <div className="row">
         {images.length === 0 ? (
-    <p>No images uploaded yet.</p>
-) : (
+          <p>No images uploaded yet.</p>
+        ) : (
         images.map((img) => (
           <div key={img._id} className="col-md-4">
             <div className="card">
