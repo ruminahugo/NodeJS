@@ -6,7 +6,8 @@ const userLogin = require('./login');
 const validateToken = require('./validateToken');
 const userregister = require('./register');
 const sliders = require('./sliders');
-const vocabularyRoutes = require('./vocabulary');
+const schedule = require('./schedule');
+const ticket =require('./tiket');
 
 // Routes
 router.use('/users', userRoutes);
@@ -14,7 +15,8 @@ router.use('/login', userLogin);
 router.use('/verify-token', validateToken);
 router.use('/register', userregister);
 router.use('/sliders', sliders);
-router.use('/vocabulary', vocabularyRoutes);
+router.use('/schedule/:id', schedule);
+router.use('/schedule/:id/book', ticket);
 
 router.get('/', (req, res) => {
   res.json({ message: 'Welcome to the API!' });
