@@ -1,43 +1,23 @@
 const express = require('express');
 const Schedule = require('../models/Schedule');
-const Ticket = require('../models/Ticket');
 const router = express.Router();
 
-// Lấy sơ đồ ghế theo ScheduleID
-router.get('/seats', async (req, res) => {
-  try {
-    const schedule = await Schedule.findById(req.params.id);
-    if (!schedule) return res.status(404).send('Schedule not found');
-    res.json(schedule.seats);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
-// Hủy vé
-router.post('/cancel', async (req, res) => {
-  const { seatNumber } = req.body;
+router.get('/', async (req, res) => {
+  const { routeId } = req.params;
 
   try {
-    // Tìm khung giờ
-    const schedule = await Schedule.findById(req.params.id);
-    if (!schedule) return res.status(404).send('Schedule not found');
+    const schedules = await Schedule.find({ route_id: routeId });
 
-    const seat = schedule.seats.find(s => s.seatNumber === seatNumber);
-    if (!seat) return res.status(404).send('Seat not found');
-    if (!seat.isBooked) return res.status(400).send('Seat is not booked');
+    if (!schedules.length) {
+      return res.status(404).json({ message: 'Không có chuyến nào trong tuyến này!' });
+    }
 
-    // Cập nhật trạng thái ghế
-    seat.isBooked = false;
-    await schedule.save();
-
-    // Xóa vé
-    await Ticket.deleteOne({ scheduleId: req.params.id, seatNumber });
-
-    res.send({ message: 'Cancellation successful' });
+    res.json(schedules);
   } catch (error) {
-    res.status(500).send(error.message);
+    console.error(error);
+    res.status(500).json({ message: 'Lỗi server' });
   }
 });
-
 
 module.exports = router;
+
