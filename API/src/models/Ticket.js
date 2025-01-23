@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const ticketSchema = new mongoose.Schema({
     scheduleId: { type: mongoose.Schema.Types.ObjectId, ref: 'Schedule', required: true }, // Khung giờ liên kết
     passengerName: { type: String, required: true }, // Tên hành khách

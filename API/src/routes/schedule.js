@@ -1,5 +1,6 @@
 const express = require('express');
 const Schedule = require('../models/Schedule');
+const Ticket = require('../models/Ticket');
 const router = express.Router();
 
 // Lấy sơ đồ ghế theo ScheduleID

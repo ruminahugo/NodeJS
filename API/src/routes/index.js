@@ -7,7 +7,7 @@ const validateToken = require('./validateToken');
 const userregister = require('./register');
 const sliders = require('./sliders');
 const schedule = require('./schedule');
-const ticket =require('./tiket');
+const ticket =require('./ticket');
 
 // Routes
 router.use('/users', userRoutes);
