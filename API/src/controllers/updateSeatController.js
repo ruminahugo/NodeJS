@@ -1,9 +1,9 @@
 const Seat = require('../models/Seat');
 
-const updateSelected = async (scheduleId, seatNumber) => {
+const updateSelected = async (scheduleId, seatNumber, dateSelecting) => {
   try {
     const data = new Seat(
-      { schedule_id: scheduleId, seat_number: seatNumber, status: 'selected' }
+      { schedule_id: scheduleId, seat_number: seatNumber, status: 'selected', date_booked: dateSelecting }
     );
     const updated = await data.save();
 
@@ -18,9 +18,9 @@ const updateSelected = async (scheduleId, seatNumber) => {
   }
 };
 
-const updateUnSelected = async (scheduleId, seatNumber) => {
+const updateUnSelected = async (scheduleId, seatNumber, dateSelected) => {
   try {
-    const deletedSeat = await Seat.findOneAndDelete({schedule_id: scheduleId, seat_number: seatNumber});
+    const deletedSeat = await Seat.findOneAndDelete({schedule_id: scheduleId, seat_number: seatNumber, date_booked: dateSelected});
 
     if (!deletedSeat) {
       return { success: false, message: 'Không tìm thấy ghế để xóa!' };

@@ -15,7 +15,6 @@ router.get('/', async (req, res) => {
       if (!seats) {
         return res.status(404).json({ message: 'Không tìm thấy tuyến phù hợp!' });
       }
-
       res.json(seats);
     } catch (error) {
       console.error(error);

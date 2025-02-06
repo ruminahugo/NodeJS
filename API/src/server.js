@@ -23,20 +23,20 @@ io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
   // Lắng nghe sự kiện chọn ghế
-  socket.on("select-seat", async ({ scheduleId, seatNumber }) => {
+  socket.on("select-seat", async ({ scheduleId, seatNumber, dateSelecting }) => {
     const userId = socket.id; // ID của client
     
     // Phát thông tin đến các client khác
     socket.broadcast.emit("seat-selected", { scheduleId, seatNumber, status: "selected", selectedBy: userId });
-    await updateSelected(scheduleId, seatNumber);
+    await updateSelected(scheduleId, seatNumber, dateSelecting);
   });
 
-  socket.on("unselect-seat", async ({ scheduleId, seatNumber }) => {
+  socket.on("unselect-seat", async ({ scheduleId, seatNumber, dateSelected }) => {
     const userId = socket.id; // ID của client
     
     // Phát thông tin đến các client khác
     socket.broadcast.emit("seat-unselected", { scheduleId, seatNumber, status: "available"});
-    await updateUnSelected(scheduleId, seatNumber);
+    await updateUnSelected(scheduleId, seatNumber, dateSelected);
   });
   
   socket.on("release-page", async (data) => {
