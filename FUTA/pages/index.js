@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRouter } from "react";
 import io from "socket.io-client";
 import axios from "axios";
 import indexcss from "../styles/index.module.css";
@@ -10,6 +10,8 @@ import SplideComponent from "../components/Splide";
 
 const socket = io("https://api-67sm.onrender.com");
 const userId = socket.id; // Lấy ID client
+
+const router = useRouter();
 
 const Home = () => {
   const [departure, setDeparture] = useState([]);
@@ -58,7 +60,13 @@ const Home = () => {
 
   // Tìm tuyến đường
   const handleSearchRoutes = async () => {
+    if (selectedSeats.length > 0){
+      socket.emit("release-page", { scheduleId: scheduleIds, seats: selectedSeats });
+      setSelectedSeats([]);
+    }
     setRoutes([]);
+    setSeatLayout([]);
+    setScheduleId("");
     try {
       const response = await axios.get("https://api-67sm.onrender.com/api/routes", {
         params: { departure: selectedDeparture, destination: selectedDestination, dateBooked: selectedDate },
@@ -71,7 +79,12 @@ const Home = () => {
 
   // Xem sơ đồ ghế
   const handleViewSeats = async (scheduleId) => {
+    if (selectedSeats.length > 0) {
+      socket.emit("release-page", { scheduleId: scheduleIds, seats: selectedSeats });
+      setSelectedSeats([]);
+    }
     setScheduleId(scheduleId);
+    setSeatLayout([]);
     try {
       const response = await axios.get(`https://api-67sm.onrender.com/api/getSeat/?scheduleId=${scheduleId}&dateBooked=${selectedDate}`);
       
@@ -200,6 +213,21 @@ const Home = () => {
     
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [selectedSeats, scheduleIds]);
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (selectedSeats.length > 0) {
+        socket.emit("release-page", { scheduleId: scheduleIds, seats: selectedSeats });
+        setSelectedSeats([]);
+      }
+    };
+  
+    router.events.on("routeChangeStart", handleRouteChange);
+  
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
     };
   }, [selectedSeats, scheduleIds]);
 
