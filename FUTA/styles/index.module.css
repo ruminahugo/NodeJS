@@ -1,0 +1,12 @@
+.border_dotted {
+    border-style: dotted !important;
+	border-top: 0 !important;
+	border-right: 0 !important;
+	border-left: 0 !important;
+}
+.flex{
+    display: flex;
+}
+.hr{
+	margin: 0.5rem;
+}
