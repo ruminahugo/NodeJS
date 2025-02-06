@@ -16,22 +16,46 @@ const io = require('socket.io')(server, {
   },
 });
 
+const {updateSelected, updateUnSelected, onExitPage} = require('./controllers/updateSeatController');
+
+// Socket.IO logic
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
-  socket.on('select-seat', ({ scheduleId, seatId }) => {
-    // Cập nhật trạng thái ghế trong cơ sở dữ liệu
-    const seat = updateSeatStatus(scheduleId, seatId, true);
-    if (seat) {
-      // Phát tín hiệu cập nhật trạng thái ghế cho tất cả client
-      io.emit('seat-update', seat);
+  // Lắng nghe sự kiện chọn ghế
+  socket.on("select-seat", async ({ scheduleId, seatNumber }) => {
+    const userId = socket.id; // ID của client
+    
+    // Phát thông tin đến các client khác
+    socket.broadcast.emit("seat-selected", { scheduleId, seatNumber, status: "selected", selectedBy: userId });
+    await updateSelected(scheduleId, seatNumber);
+  });
 
-      // Tự động bỏ chọn sau 3 phút nếu không đặt
-      setTimeout(() => {
-        const timeoutSeat = updateSeatStatus(scheduleId, seatId, false);
-        io.emit('seat-update', timeoutSeat);
-      }, 3 * 60 * 1000);
-    }
+  socket.on("unselect-seat", async ({ scheduleId, seatNumber }) => {
+    const userId = socket.id; // ID của client
+    
+    // Phát thông tin đến các client khác
+    socket.broadcast.emit("seat-unselected", { scheduleId, seatNumber, status: "available"});
+    await updateUnSelected(scheduleId, seatNumber);
+  });
+  
+  socket.on("release-page", async (data) => {
+    await onExitPage(data);
+    socket.broadcast.emit("seat-on-exit", { scheduleId: data.scheduleId, seatNumbers: data.seats, status: 'available' });
+  });
+
+
+  // Lắng nghe sự kiện hủy ghế
+  socket.on('deselect-seat', ({ scheduleId, seatNumber }) => {
+    console.log(`Ghế ${seatNumber} bị bỏ chọn trên chuyến ${scheduleId}`);
+    
+    // Gửi trạng thái ghế trống tới tất cả người dùng khác
+    socket.broadcast.emit('seat-deselected', { scheduleId, seatNumber });
+  });
+
+  // Xử lý ngắt kết nối
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
   });
 });
 
