@@ -8,7 +8,7 @@ import classNames from "classnames";
 import LitePickerComponent from "../components/LitePicker";
 import SplideComponent from "../components/Splide";
 
-const socket = io("http://localhost:3000");
+const socket = io("https://api-67sm.onrender.com");
 const userId = socket.id; // Lấy ID client
 
 const Home = () => {
@@ -31,7 +31,7 @@ const Home = () => {
     const fetchDeparture = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/getRoute/departure"
+          "https://api-67sm.onrender.com/api/getRoute/departure"
         );
         setDeparture(response.data);
         setSelectedDeparture(response.data[0]?.departure || "");
@@ -43,7 +43,7 @@ const Home = () => {
     const fetchDestination = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/getRoute/destination"
+          "https://api-67sm.onrender.com/api/getRoute/destination"
         );
         setDestination(response.data);
         setSelectedDestination(response.data[0]?.destination || "");
@@ -60,7 +60,7 @@ const Home = () => {
   const handleSearchRoutes = async () => {
     setRoutes([]);
     try {
-      const response = await axios.get("http://localhost:3000/api/routes", {
+      const response = await axios.get("https://api-67sm.onrender.com/api/routes", {
         params: { departure: selectedDeparture, destination: selectedDestination, dateBooked: selectedDate },
       });
       setRoutes(response.data);
@@ -73,7 +73,7 @@ const Home = () => {
   const handleViewSeats = async (scheduleId) => {
     setScheduleId(scheduleId);
     try {
-      const response = await axios.get(`http://localhost:3000/api/getSeat/?scheduleId=${scheduleId}&dateBooked=${selectedDate}`);
+      const response = await axios.get(`https://api-67sm.onrender.com/api/getSeat/?scheduleId=${scheduleId}&dateBooked=${selectedDate}`);
       
       // Tạo mapping trạng thái ghế
       const seatStatusMap = response.data.reduce((map, seat) => {
@@ -81,7 +81,7 @@ const Home = () => {
         return map;
       }, {});
   
-      const seat_Layout = await axios.get(`http://localhost:3000/api/getSeatLayout/${scheduleId}`);
+      const seat_Layout = await axios.get(`https://api-67sm.onrender.com/api/getSeatLayout/${scheduleId}`);
       
       const updatedSeatLayout = seat_Layout.data.map((floor) => ({
         ...floor,
