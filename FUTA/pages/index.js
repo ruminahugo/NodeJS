@@ -1,4 +1,5 @@
-import { useState, useEffect, useRouter } from "react";
+import { useState, useEffect } from "react";
+import {useRouter} from "next/router";
 import io from "socket.io-client";
 import axios from "axios";
 import indexcss from "../styles/index.module.css";
@@ -11,9 +12,8 @@ import SplideComponent from "../components/Splide";
 const socket = io("https://api-67sm.onrender.com");
 const userId = socket.id; // Lấy ID client
 
-const router = useRouter();
-
 const Home = () => {
+  const router = useRouter();
   const [departure, setDeparture] = useState([]);
   const [selectedDeparture, setSelectedDeparture] = useState("");
   const [destination, setDestination] = useState([]);
@@ -133,10 +133,10 @@ const Home = () => {
   
     if (isSelected) {
       setSelectedSeats((prev) => prev.filter((s) => s !== seatNumber));
-      socket.emit("unselect-seat", { scheduleId: scheduleIds, seatNumber });
+      socket.emit("unselect-seat", { scheduleId: scheduleIds, seatNumber, dateSelected: selectedDate });
     } else {
       setSelectedSeats((prev) => [...prev, seatNumber]);
-      socket.emit("select-seat", { scheduleId: scheduleIds, seatNumber });
+      socket.emit("select-seat", { scheduleId: scheduleIds, seatNumber, dateSelecting: selectedDate });
     }
   };
   
