@@ -133,10 +133,10 @@ const Home = () => {
   
     if (isSelected) {
       setSelectedSeats((prev) => prev.filter((s) => s !== seatNumber));
-      socket.emit("unselect-seat", { scheduleId: scheduleIds, seatNumber, dateSelected: selectedDate });
+      socket.emit("unselect-seat", { scheduleId: scheduleIds, seatNumber, dateSelected: selectedDate});
     } else {
       setSelectedSeats((prev) => [...prev, seatNumber]);
-      socket.emit("select-seat", { scheduleId: scheduleIds, seatNumber, dateSelecting: selectedDate });
+      socket.emit("select-seat", { scheduleId: scheduleIds, seatNumber, dateSelecting: selectedDate});
     }
   };
   
@@ -144,13 +144,13 @@ const Home = () => {
   // Lắng nghe cập nhật trạng thái ghế
   useEffect(() => {
     const handleSeatSelected = (data) => {
-      const { scheduleId, seatNumber, status, selectedBy } = data;
+      const { scheduleId, seatNumber, status, selectedBy, dateSelected } = data;
       if (scheduleId === scheduleIds) {
         setSeatLayout((prevLayout) =>
           prevLayout.map((floor) => ({
             ...floor,
             seats: floor.seats.map((seat) =>
-              seat.seatNumber === seatNumber
+              seat.seatNumber === seatNumber && selectedDate === dateSelected
                 ? { ...seat, status, selectedBy }
                 : seat
             ),
@@ -160,13 +160,13 @@ const Home = () => {
     };
   
     const handleSeatUnSelected = (data) => {
-      const { scheduleId, seatNumber } = data;
+      const { scheduleId, seatNumber, dateUnSelected } = data;
       if (scheduleId === scheduleIds) {
         setSeatLayout((prevLayout) =>
           prevLayout.map((floor) => ({
             ...floor,
             seats: floor.seats.map((seat) =>
-              seat.seatNumber === seatNumber
+              seat.seatNumber === seatNumber && selectedDate === dateUnSelected
                 ? { ...seat, status: "available", selectedBy: null }
                 : seat
             ),

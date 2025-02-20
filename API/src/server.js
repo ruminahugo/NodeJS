@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
     const userId = socket.id; // ID của client
     
     // Phát thông tin đến các client khác
-    socket.broadcast.emit("seat-selected", { scheduleId, seatNumber, status: "selected", selectedBy: userId });
+    socket.broadcast.emit("seat-selected", { scheduleId, seatNumber, status: "selected", selectedBy: userId, dateSelected: dateSelecting });
     await updateSelected(scheduleId, seatNumber, dateSelecting);
   });
 
@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
     const userId = socket.id; // ID của client
     
     // Phát thông tin đến các client khác
-    socket.broadcast.emit("seat-unselected", { scheduleId, seatNumber, status: "available"});
+    socket.broadcast.emit("seat-unselected", { scheduleId, seatNumber, status: "available", dateUnSelected: dateSelected});
     await updateUnSelected(scheduleId, seatNumber, dateSelected);
   });
   
