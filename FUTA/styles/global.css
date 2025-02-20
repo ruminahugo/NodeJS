@@ -8,6 +8,13 @@ body {
 p{
 	margin:0;
 }
+@media (max-width: 1366px) {
+    .navbar{
+        left: 0.2rem !important;
+        top: 0 !important;
+        border-radius: 0 !important;
+    }
+  }
 @media (max-width: 1200px) {
   .container{
     max-width: 95%;
